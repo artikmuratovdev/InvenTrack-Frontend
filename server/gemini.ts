@@ -89,17 +89,41 @@ Agar foydalanuvchi tizimda yo'q jihoz haqida so'rasa, mavjud emasligini ochiq ay
     ? `Oldingi suhbat:\n${recentHistory}\n\nYangi savol: ${message}`
     : message;
 
-  const response = await ai.models.generateContent({
-    model: 'gemini-4-hydrogen',
-    contents: promptContent,
-    config: {
-      systemInstruction,
-    },
-  });
+  const modelName = process.env.GEMINI_MODEL || 'gemini-4-hydrogen';
+  const maxAttempts = 3;
+  let lastError: unknown;
 
-  const text = response.text?.trim();
-  if (!text) {
-    throw new Error('AI modeli bo‘sh javob qaytardi.');
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      const response = await ai.models.generateContent({
+        model: modelName,
+        contents: promptContent,
+        config: {
+          systemInstruction,
+        },
+      });
+
+      const text = response.text?.trim();
+      if (!text) {
+        throw new Error('AI modeli bo‘sh javob qaytardi.');
+      }
+      return text;
+    } catch (err) {
+      lastError = err;
+      const errStr = err instanceof Error ? err.message : String(err);
+      const isTransient = errStr.includes('503') || errStr.includes('UNAVAILABLE');
+      if (isTransient && attempt < maxAttempts) {
+        await new Promise((resolve) => setTimeout(resolve, attempt * 1000));
+        continue;
+      }
+      if (isTransient) {
+        throw new Error(
+          'AI modeli hozir vaqtinchalik yuklama ostida (503). Iltimos, bir necha soniyadan keyin qayta urinib ko‘ring.'
+        );
+      }
+      throw err;
+    }
   }
-  return text;
+
+  throw lastError instanceof Error ? lastError : new Error('AI xizmatida xatolik yuz berdi.');
 }

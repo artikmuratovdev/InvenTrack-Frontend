@@ -12,6 +12,7 @@ import type {
   User,
   UserRole,
 } from '../src/types/inventory.ts';
+import { firestoreService } from './firestore.ts';
 
 export interface StoredUser extends User {
   passwordHash: string;
@@ -448,9 +449,35 @@ function createInitialSeed(): DatabaseState {
 
 class InventoryStore {
   private state: DatabaseState;
+  private initialized = false;
 
   constructor() {
     this.state = this.load();
+  }
+
+  async init(): Promise<void> {
+    if (this.initialized) return;
+    this.initialized = true;
+
+    if (firestoreService.isConnected) {
+      try {
+        console.log('[InvenTrack] 🔄 Firestore ma’lumotlari yuklanmoqda...');
+        const remoteState = await firestoreService.loadAll();
+        if (remoteState && remoteState.equipment.length > 0) {
+          this.state = remoteState;
+          this.saveState(this.state);
+          console.log(
+            `[InvenTrack] 📦 Firestore-dan ma’lumotlar muvaffaqiyatli yuklandi: ${this.state.equipment.length} ta jihoz, ${this.state.repairs.length} ta ta’mir.`
+          );
+        } else {
+          console.log('[InvenTrack] 🌱 Firestore bo‘sh. Boshlang‘ich demo ma’lumotlar yuklanmoqda...');
+          await firestoreService.seedData(this.state);
+          console.log('[InvenTrack] ✅ Boshlang‘ich ma’lumotlar Firestore-ga muvaffaqiyatli saqlandi.');
+        }
+      } catch (err) {
+        console.error('[InvenTrack] ⚠️ Firestore bilan sinxronlashda xatolik:', err);
+      }
+    }
   }
 
   private load(): DatabaseState {
@@ -524,6 +551,7 @@ class InventoryStore {
       createdAt: new Date().toISOString(),
     };
     this.state.history.unshift(item);
+    void firestoreService.saveHistory(item);
     return item;
   }
 

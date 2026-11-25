@@ -13,6 +13,7 @@ import {
   type UserRole,
 } from './src/types/inventory.ts';
 import { generateInventoryChatReply } from './server/gemini.ts';
+import { firestoreService } from './server/firestore.ts';
 import { hashPassword, signJwt, store, verifyJwt, verifyPassword } from './server/store.ts';
 
 interface AuthenticatedRequest extends Request {
@@ -59,6 +60,7 @@ function csvEscape(value: string | number | undefined): string {
 }
 
 async function startServer() {
+  await store.init();
   const app = express();
   app.use(express.json({ limit: '1mb' }));
 
@@ -291,6 +293,7 @@ async function startServer() {
         changes: `Inventar: ${inventoryNumber} · Holat: ${STATUS_LABELS[status]}`,
       });
       store.save();
+      void firestoreService.saveEquipment(newEquipment);
 
       res.status(201).json({ equipment: store.hydrateEquipment(newEquipment) });
     }
@@ -395,6 +398,7 @@ async function startServer() {
         changes: diffs.length > 0 ? diffs.join(' · ') : 'Saqlash tasdiqlandi',
       });
       store.save();
+      void firestoreService.saveEquipment(updated);
 
       res.json({ equipment: store.hydrateEquipment(updated) });
     }
@@ -412,6 +416,7 @@ async function startServer() {
       }
       store.data.equipment.splice(idx, 1);
       store.save();
+      void firestoreService.deleteEquipment(req.params.id);
       res.json({ ok: true });
     }
   );
@@ -487,6 +492,8 @@ async function startServer() {
         changes: `Holat: ${STATUS_LABELS[prevStatus]} → Ta’mirda · Ijrochi: ${record.vendorOrTechnician}`,
       });
       store.save();
+      void firestoreService.saveRepair(record);
+      void firestoreService.saveEquipment(store.data.equipment[eqIdx]);
 
       res.status(201).json({ repair: record });
     }
@@ -548,6 +555,8 @@ async function startServer() {
         changes: `Holat: Ta’mirda → ${STATUS_LABELS[nextStatus]} · Xarajat: ${parsedCost.toLocaleString('ru-RU')} so‘m`,
       });
       store.save();
+      void firestoreService.saveRepair(store.data.repairs[repIdx]);
+      void firestoreService.saveEquipment(store.data.equipment[eqIdx]);
 
       res.json({ repair: store.data.repairs[repIdx] });
     }
@@ -702,6 +711,7 @@ async function startServer() {
       };
       store.data.users.push(newUser);
       store.save();
+      void firestoreService.saveUser(newUser);
       res.status(201).json({ user: store.sanitizeUser(newUser) });
     }
   );
@@ -730,6 +740,7 @@ async function startServer() {
         active: active !== undefined ? Boolean(active) : current.active,
       };
       store.save();
+      void firestoreService.saveUser(store.data.users[idx]);
       res.json({ user: store.sanitizeUser(store.data.users[idx]) });
     }
   );
@@ -748,6 +759,7 @@ async function startServer() {
       const item = { id: `type-${Date.now()}`, name };
       store.data.types.push(item);
       store.save();
+      void firestoreService.saveType(item);
       res.status(201).json({ type: item });
     }
   );
@@ -765,6 +777,7 @@ async function startServer() {
       }
       store.data.types = store.data.types.filter((t) => t.id !== req.params.id);
       store.save();
+      void firestoreService.deleteType(req.params.id);
       res.json({ ok: true });
     }
   );
@@ -784,6 +797,7 @@ async function startServer() {
       const item = { id: `room-${Date.now()}`, code, name, floor };
       store.data.rooms.push(item);
       store.save();
+      void firestoreService.saveRoom(item);
       res.status(201).json({ room: item });
     }
   );
@@ -801,7 +815,44 @@ async function startServer() {
       }
       store.data.rooms = store.data.rooms.filter((r) => r.id !== req.params.id);
       store.save();
+      void firestoreService.deleteRoom(req.params.id);
       res.json({ ok: true });
+    }
+  );
+
+  // --- ADMIN: FIRESTORE STATUS & SYNC ---
+  app.get(
+    '/api/admin/firestore/status',
+    authMiddleware,
+    requireRole('ADMIN'),
+    (_req: AuthenticatedRequest, res: Response) => {
+      res.json(firestoreService.getStatus());
+    }
+  );
+
+  app.post(
+    '/api/admin/firestore/sync',
+    authMiddleware,
+    requireRole('ADMIN'),
+    async (_req: AuthenticatedRequest, res: Response) => {
+      if (!firestoreService.isConnected) {
+        res.status(400).json({
+          message:
+            'Firestore ulanmagan. Iltimos, avval .env faylida Firebase kalitlarini sozlang.',
+          status: firestoreService.getStatus(),
+        });
+        return;
+      }
+      try {
+        const result = await firestoreService.seedData(store.data);
+        res.json({
+          message: 'Barcha ma’lumotlar Firestore-ga muvaffaqiyatli sinxronlashtirildi.',
+          result,
+        });
+      } catch (err) {
+        const errMsg = err instanceof Error ? err.message : String(err);
+        res.status(500).json({ message: `Sinxronlashda xatolik: ${errMsg}` });
+      }
     }
   );
 
@@ -849,8 +900,10 @@ async function startServer() {
   }
 
   const port = Number(process.env.PORT) || 3000;
-  app.listen(port, '0.0.0.0', () => {
-    console.log(`InvenTrack server running at http://0.0.0.0:${port}`);
+  const host = process.env.HOST || '127.0.0.1';
+  const displayHost = host === '0.0.0.0' ? 'localhost' : host;
+  app.listen(port, host, () => {
+    console.log(`InvenTrack server running at http://${displayHost}:${port}`);
   });
 }
 

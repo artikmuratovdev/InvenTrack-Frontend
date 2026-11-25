@@ -1,0 +1,393 @@
+{
+  "users": [
+    {
+      "createdAt": "2026-01-10T09:00:00.000Z",
+      "role": "ADMIN",
+      "active": true,
+      "fullName": "G‘olibjon Karimov",
+      "id": "u-admin",
+      "department": "IT va Infratuzilma",
+      "email": "admin@inventrack.uz",
+      "passwordHash": "7c6dcd737273aabf096894e7b6cb41deb5a45674175d267dde23a5a40283082a"
+    },
+    {
+      "createdAt": "2026-02-01T09:15:00.000Z",
+      "role": "EMPLOYEE",
+      "active": true,
+      "fullName": "Dilshod Rahimov",
+      "id": "u-emp",
+      "department": "Kadrlar bo‘limi",
+      "email": "xodim@inventrack.uz",
+      "passwordHash": "7c6dcd737273aabf096894e7b6cb41deb5a45674175d267dde23a5a40283082a"
+    },
+    {
+      "createdAt": "2026-01-12T10:30:00.000Z",
+      "role": "RESPONSIBLE",
+      "active": true,
+      "fullName": "Nurmuhammad Tursunov",
+      "id": "u-resp-1",
+      "department": "Dasturlash bo‘limi",
+      "email": "masul@inventrack.uz",
+      "passwordHash": "7c6dcd737273aabf096894e7b6cb41deb5a45674175d267dde23a5a40283082a"
+    },
+    {
+      "createdAt": "2026-01-14T11:00:00.000Z",
+      "role": "RESPONSIBLE",
+      "active": true,
+      "fullName": "Sanobar Alimova",
+      "id": "u-resp-2",
+      "department": "Moliya va Hisob",
+      "email": "sanobar@inventrack.uz",
+      "passwordHash": "7c6dcd737273aabf096894e7b6cb41deb5a45674175d267dde23a5a40283082a"
+    }
+  ],
+  "types": [
+    {
+      "name": "Statsionar kompyuter",
+      "id": "type-desktop"
+    },
+    {
+      "name": "Noutbuk",
+      "id": "type-laptop"
+    },
+    {
+      "name": "Monitor",
+      "id": "type-monitor"
+    },
+    {
+      "name": "Tarmoq qurilmasi",
+      "id": "type-network"
+    },
+    {
+      "name": "Printer va MFU",
+      "id": "type-printer"
+    },
+    {
+      "name": "Proyektor va taqdimot",
+      "id": "type-projector"
+    }
+  ],
+  "rooms": [
+    {
+      "code": "001",
+      "name": "Markaziy zaxira ombori",
+      "id": "room-001",
+      "floor": "Yerto‘la"
+    },
+    {
+      "code": "101",
+      "name": "Qabulxona va Boshqaruv",
+      "id": "room-101",
+      "floor": "1-qavat"
+    },
+    {
+      "code": "204",
+      "name": "Moliya bo‘limi",
+      "id": "room-204",
+      "floor": "2-qavat"
+    },
+    {
+      "code": "301",
+      "name": "Katta majlislar zali",
+      "id": "room-301",
+      "floor": "3-qavat"
+    },
+    {
+      "code": "304",
+      "name": "Dasturlash va IT markazi",
+      "id": "room-304",
+      "floor": "3-qavat"
+    },
+    {
+      "code": "402",
+      "name": "Server va tarmoq xonasi",
+      "id": "room-402",
+      "floor": "4-qavat"
+    }
+  ],
+  "equipment": [
+    {
+      "usageStatus": "IN_USE",
+      "purchaseDate": "2025-03-14",
+      "notes": "Frontend va mobil ishlanma uchun asosiy ishchi noutbuk.",
+      "serialNumber": "C02YM41KJG5H",
+      "warrantyUntil": "2028-03-14",
+      "roomId": "room-304",
+      "inventoryNumber": "INV-2026-001",
+      "name": "MacBook Pro 14 M3 Pro",
+      "typeId": "type-laptop",
+      "id": "eq-1001",
+      "responsibleUserId": "u-resp-1",
+      "status": "ACTIVE",
+      "updatedAt": "2026-11-12T10:20:00.000Z"
+    },
+    {
+      "usageStatus": "IN_USE",
+      "purchaseDate": "2025-04-02",
+      "notes": "4K IPS USB-C hub bilan jihozlangan monitor.",
+      "serialNumber": "CN-0X98K2-TV100",
+      "warrantyUntil": "2028-04-02",
+      "roomId": "room-304",
+      "inventoryNumber": "INV-2026-002",
+      "name": "Dell UltraSharp U2723QE 27\"",
+      "typeId": "type-monitor",
+      "id": "eq-1002",
+      "responsibleUserId": "u-resp-1",
+      "status": "ACTIVE",
+      "updatedAt": "2026-11-10T14:05:00.000Z"
+    },
+    {
+      "usageStatus": "SHARED",
+      "purchaseDate": "2024-06-20",
+      "notes": "Qog‘oz tortish rolikida nosozlik kuzatilgan, servisga yuborilgan.",
+      "serialNumber": "VNB3R19482",
+      "warrantyUntil": "2026-06-20",
+      "roomId": "room-204",
+      "inventoryNumber": "INV-2026-003",
+      "name": "HP LaserJet Pro MFP M428fdw",
+      "typeId": "type-printer",
+      "id": "eq-1003",
+      "responsibleUserId": "u-resp-2",
+      "status": "IN_REPAIR",
+      "updatedAt": "2026-11-14T08:40:00.000Z"
+    },
+    {
+      "usageStatus": "IN_USE",
+      "purchaseDate": "2024-09-10",
+      "notes": "Batareya sig‘imi tushib ketgani va quvvatlash porti uchun ta’mirda.",
+      "serialNumber": "PF4A91KL",
+      "warrantyUntil": "2027-09-10",
+      "roomId": "room-304",
+      "inventoryNumber": "INV-2026-004",
+      "name": "Lenovo ThinkPad T14 Gen 4",
+      "typeId": "type-laptop",
+      "id": "eq-1004",
+      "responsibleUserId": "u-resp-1",
+      "status": "IN_REPAIR",
+      "updatedAt": "2026-11-15T11:15:00.000Z"
+    },
+    {
+      "usageStatus": "SHARED",
+      "purchaseDate": "2024-02-11",
+      "notes": "Asosiy magistral marshrutizator, 24/7 rejimda ishlaydi.",
+      "serialNumber": "MT-CCR2004-8821",
+      "warrantyUntil": "2027-02-11",
+      "roomId": "room-402",
+      "inventoryNumber": "INV-2026-005",
+      "name": "MikroTik Cloud Core Router CCR2004",
+      "typeId": "type-network",
+      "id": "eq-1005",
+      "responsibleUserId": "u-admin",
+      "status": "ACTIVE",
+      "updatedAt": "2026-11-01T09:00:00.000Z"
+    },
+    {
+      "usageStatus": "SHARED",
+      "purchaseDate": "2025-01-25",
+      "notes": "Katta majlislar zalida taqdimotlar uchun o‘rnatilgan.",
+      "serialNumber": "EP-L630-44109",
+      "warrantyUntil": "2028-01-25",
+      "roomId": "room-301",
+      "inventoryNumber": "INV-2026-006",
+      "name": "Epson EB-L630U Lazer Proyektor",
+      "typeId": "type-projector",
+      "id": "eq-1006",
+      "responsibleUserId": "u-resp-1",
+      "status": "ACTIVE",
+      "updatedAt": "2026-10-28T16:30:00.000Z"
+    },
+    {
+      "usageStatus": "IN_USE",
+      "purchaseDate": "2025-02-18",
+      "notes": "1C va buxgalteriya hisobi uchun ajratilgan.",
+      "serialNumber": "8CG31209PQ",
+      "warrantyUntil": "2028-02-18",
+      "roomId": "room-204",
+      "inventoryNumber": "INV-2026-007",
+      "name": "HP ProDesk 400 G9 Mini",
+      "typeId": "type-desktop",
+      "id": "eq-1007",
+      "responsibleUserId": "u-resp-2",
+      "status": "ACTIVE",
+      "updatedAt": "2026-11-05T13:20:00.000Z"
+    },
+    {
+      "usageStatus": "IDLE",
+      "purchaseDate": "2025-07-08",
+      "notes": "Yangi ishga olinadigan dizayner/dasturchi uchun zaxirada.",
+      "serialNumber": "AS-PA278-77312",
+      "warrantyUntil": "2028-07-08",
+      "roomId": "room-001",
+      "inventoryNumber": "INV-2026-008",
+      "name": "ASUS ProArt PA278QV 27\"",
+      "typeId": "type-monitor",
+      "id": "eq-1008",
+      "responsibleUserId": "u-resp-1",
+      "status": "RESERVE",
+      "updatedAt": "2026-11-08T12:00:00.000Z"
+    },
+    {
+      "usageStatus": "SHARED",
+      "purchaseDate": "2023-11-19",
+      "notes": "3-qavat PoE IP-telefonlar va Wi-Fi nuqtalarini ta’minlaydi.",
+      "serialNumber": "FCW2140B09X",
+      "warrantyUntil": "2026-11-19",
+      "roomId": "room-402",
+      "inventoryNumber": "INV-2026-009",
+      "name": "Cisco Catalyst 2960X-48FPS",
+      "typeId": "type-network",
+      "id": "eq-1009",
+      "responsibleUserId": "u-admin",
+      "status": "ACTIVE",
+      "updatedAt": "2026-10-15T10:10:00.000Z"
+    },
+    {
+      "usageStatus": "SHARED",
+      "purchaseDate": "2025-05-11",
+      "notes": "Qabulxona hujjatlarini tezkor chop etish uchun.",
+      "serialNumber": "CN-236DW-1904",
+      "warrantyUntil": "2027-05-11",
+      "roomId": "room-101",
+      "inventoryNumber": "INV-2026-010",
+      "name": "Canon i-SENSYS LBP236dw",
+      "typeId": "type-printer",
+      "id": "eq-1010",
+      "responsibleUserId": "u-resp-2",
+      "status": "ACTIVE",
+      "updatedAt": "2026-11-03T15:45:00.000Z"
+    },
+    {
+      "usageStatus": "IDLE",
+      "purchaseDate": "2025-08-22",
+      "notes": "Xizmat safarlari va vaqtinchalik almashtirish uchun zaxirada.",
+      "serialNumber": "DL-5440-9012M",
+      "warrantyUntil": "2028-08-22",
+      "roomId": "room-001",
+      "inventoryNumber": "INV-2026-011",
+      "name": "Dell Latitude 5440",
+      "typeId": "type-laptop",
+      "id": "eq-1011",
+      "responsibleUserId": "u-resp-1",
+      "status": "RESERVE",
+      "updatedAt": "2026-11-11T09:30:00.000Z"
+    },
+    {
+      "usageStatus": "IDLE",
+      "purchaseDate": "2019-03-04",
+      "notes": "Ma’naviy eskirgani sababli komissiya qarori bilan hisobdan chiqarilgan.",
+      "serialNumber": "CZC248910W",
+      "warrantyUntil": "2022-03-04",
+      "roomId": "room-001",
+      "inventoryNumber": "INV-2026-012",
+      "name": "HP Compaq Elite 8300 (Eski)",
+      "typeId": "type-desktop",
+      "id": "eq-1012",
+      "responsibleUserId": "u-admin",
+      "status": "WRITTEN_OFF",
+      "updatedAt": "2026-09-20T17:00:00.000Z"
+    }
+  ],
+  "history": [
+    {
+      "createdAt": "2026-11-15T11:15:00.000Z",
+      "actorId": "u-resp-1",
+      "changes": "Holat: Faol → Ta’mirda · Ijrochi: TechnoService Toshkent",
+      "action": "Ta’mirga jo‘natildi",
+      "actorName": "Nurmuhammad Tursunov",
+      "id": "hist-1",
+      "equipmentId": "eq-1004"
+    },
+    {
+      "createdAt": "2026-11-14T08:40:00.000Z",
+      "actorId": "u-resp-2",
+      "changes": "Holat: Faol → Ta’mirda · Sabab: Qog‘oz tortish mexanizmi nosozligi",
+      "action": "Ta’mirga jo‘natildi",
+      "actorName": "Sanobar Alimova",
+      "id": "hist-2",
+      "equipmentId": "eq-1003"
+    },
+    {
+      "createdAt": "2026-11-12T10:20:00.000Z",
+      "actorId": "u-admin",
+      "changes": "Xona: 001 → 304-xona · Mas’ul: Nurmuhammad Tursunov",
+      "action": "Ma’lumot yangilandi",
+      "actorName": "G‘olibjon Karimov",
+      "id": "hist-3",
+      "equipmentId": "eq-1001"
+    },
+    {
+      "createdAt": "2026-10-28T16:30:00.000Z",
+      "actorId": "u-resp-1",
+      "changes": "Holat: Ta’mirda → Faol · Xarajat: 450 000 so‘m",
+      "action": "Ta’mirdan qaytarildi",
+      "actorName": "Nurmuhammad Tursunov",
+      "id": "hist-4",
+      "equipmentId": "eq-1006"
+    },
+    {
+      "createdAt": "2026-09-20T17:00:00.000Z",
+      "actorId": "u-admin",
+      "changes": "Holat: Zaxirada → Hisobdan chiqarilgan",
+      "action": "Hisobdan chiqarildi",
+      "actorName": "G‘olibjon Karimov",
+      "id": "hist-5",
+      "equipmentId": "eq-1012"
+    }
+  ],
+  "repairs": [
+    {
+      "inventoryNumber": "INV-2026-004",
+      "sentByName": "Nurmuhammad Tursunov",
+      "equipmentName": "Lenovo ThinkPad T14 Gen 4",
+      "id": "rep-201",
+      "sentAt": "2026-11-15T11:15:00.000Z",
+      "vendorOrTechnician": "TechnoService Toshkent",
+      "equipmentId": "eq-1004",
+      "issueDescription": "Batareya 20 daqiqada o‘chib qolmoqda va USB-C port qizib ketmoqda.",
+      "sentById": "u-resp-1",
+      "status": "OPEN"
+    },
+    {
+      "inventoryNumber": "INV-2026-003",
+      "sentByName": "Sanobar Alimova",
+      "equipmentName": "HP LaserJet Pro MFP M428fdw",
+      "id": "rep-202",
+      "sentAt": "2026-11-14T08:40:00.000Z",
+      "vendorOrTechnician": "PrintMaster Servis",
+      "equipmentId": "eq-1003",
+      "issueDescription": "Qog‘oz tortish roligi yeyilgan va skaner qopqog‘i bo‘shashgan.",
+      "sentById": "u-resp-2",
+      "status": "OPEN"
+    },
+    {
+      "cost": 450000,
+      "sentByName": "Nurmuhammad Tursunov",
+      "sentAt": "2026-10-22T09:00:00.000Z",
+      "equipmentId": "eq-1006",
+      "inventoryNumber": "INV-2026-006",
+      "returnedAt": "2026-10-28T16:30:00.000Z",
+      "equipmentName": "Epson EB-L630U Lazer Proyektor",
+      "id": "rep-203",
+      "vendorOrTechnician": "AV Pro Servis Markazi",
+      "issueDescription": "Optik filtrni changdan tozalash va rang kalibrlash.",
+      "sentById": "u-resp-1",
+      "resolutionNotes": "Filtr almashtirildi, optika tozalandi, to‘liq sinovdan o‘tdi.",
+      "status": "COMPLETED"
+    },
+    {
+      "cost": 320000,
+      "sentByName": "Sanobar Alimova",
+      "sentAt": "2026-09-10T10:00:00.000Z",
+      "equipmentId": "eq-1010",
+      "inventoryNumber": "INV-2026-010",
+      "returnedAt": "2026-09-12T15:20:00.000Z",
+      "equipmentName": "Canon i-SENSYS LBP236dw",
+      "id": "rep-204",
+      "vendorOrTechnician": "PrintMaster Servis",
+      "issueDescription": "Pechka (fuser) plyonkasini almashtirish va profilaktika.",
+      "sentById": "u-resp-2",
+      "resolutionNotes": "Yangi termo-plyonka o‘rnatildi, chop etish sifati tiklandi.",
+      "status": "COMPLETED"
+    }
+  ]
+}
