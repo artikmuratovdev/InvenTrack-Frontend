@@ -1,15 +1,15 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { AuthProvider } from './context/AuthContext';
-import { AdminReferencesPage } from './pages/AdminReferencesPage';
-import { AdminUsersPage } from './pages/AdminUsersPage';
-import { DashboardPage } from './pages/DashboardPage';
-import { EquipmentDetailPage } from './pages/EquipmentDetailPage';
-import { EquipmentFormPage } from './pages/EquipmentFormPage';
-import { EquipmentListPage } from './pages/EquipmentListPage';
-import { LoginPage } from './pages/LoginPage';
-import { RepairsPage } from './pages/RepairsPage';
-import { ReportsPage } from './pages/ReportsPage';
+import { AdminReferencesPage } from './views/AdminReferencesPage';
+import { AdminUsersPage } from './views/AdminUsersPage';
+import { DashboardPage } from './views/DashboardPage';
+import { EquipmentDetailPage } from './views/EquipmentDetailPage';
+import { EquipmentFormPage } from './views/EquipmentFormPage';
+import { EquipmentListPage } from './views/EquipmentListPage';
+import { LoginPage } from './views/LoginPage';
+import { RepairsPage } from './views/RepairsPage';
+import { ReportsPage } from './views/ReportsPage';
 
 export default function App() {
   return (
