@@ -59,9 +59,11 @@ function csvEscape(value: string | number | undefined): string {
   return str;
 }
 
+export let app: express.Express;
+
 async function startServer() {
   await store.init();
-  const app = express();
+  app = express();
   app.use(express.json({ limit: '1mb' }));
 
   // --- AUTH ---
@@ -902,12 +904,15 @@ async function startServer() {
   const port = Number(process.env.PORT) || 3000;
   const host = process.env.HOST || '127.0.0.1';
   const displayHost = host === '0.0.0.0' ? 'localhost' : host;
-  app.listen(port, host, () => {
-    console.log(`InvenTrack server running at http://${displayHost}:${port}`);
-  });
+  if (!process.env.VERCEL) {
+    app.listen(port, host, () => {
+      console.log(`InvenTrack server running at http://${displayHost}:${port}`);
+    });
+  }
 }
 
-startServer().catch((err) => {
+export const serverReady = startServer().catch((err) => {
   console.error('Server start failed:', err);
-  process.exit(1);
+  if (!process.env.VERCEL) process.exit(1);
+  throw err;
 });
