@@ -1,5 +1,6 @@
 const TOKEN_KEY = 'inventrack_token';
-const BASE_URL = (import.meta.env.VITE_API_URL as string | undefined)?.replace(/\/$/, '') || '';
+// Frontend and API are deployed together on Next.js, so requests use same-origin routes.
+const BASE_URL = '';
 
 export function getStoredToken(): string | null {
   try {

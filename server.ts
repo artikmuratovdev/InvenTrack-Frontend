@@ -1,7 +1,5 @@
 import 'dotenv/config';
 import express, { type NextFunction, type Request, type Response } from 'express';
-import fs from 'fs';
-import path from 'path';
 import {
   STATUS_LABELS,
   USAGE_LABELS,
@@ -59,8 +57,16 @@ function csvEscape(value: string | number | undefined): string {
   return str;
 }
 
-async function startServer() {
+export async function createApiApp() {
+  if (process.env.NODE_ENV === 'production' && !process.env.JWT_SECRET) {
+    throw new Error('JWT_SECRET must be configured in production.');
+  }
   await store.init();
+  if (process.env.NODE_ENV === 'production' && !firestoreService.isConnected) {
+    throw new Error(
+      'Firestore is required in production. Configure FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, and FIREBASE_PRIVATE_KEY.',
+    );
+  }
   const app = express();
   app.use(express.json({ limit: '1mb' }));
 
@@ -878,36 +884,5 @@ async function startServer() {
     }
   });
 
-  // --- VITE DEV / PROD STATIC SERVING ---
-  if (process.env.NODE_ENV !== 'production') {
-    const { createServer: createViteServer } = await import('vite');
-    const vite = await createViteServer({
-      server: { middlewareMode: true },
-      appType: 'spa',
-    });
-    app.use(vite.middlewares);
-  } else {
-    const distDir = path.resolve(process.cwd(), 'dist');
-    app.use(express.static(distDir));
-    app.get('*', (_req, res) => {
-      const indexFile = path.join(distDir, 'index.html');
-      if (fs.existsSync(indexFile)) {
-        res.sendFile(indexFile);
-      } else {
-        res.status(404).send('Build fayllari topilmadi.');
-      }
-    });
-  }
-
-  const port = Number(process.env.PORT) || 3000;
-  const host = process.env.HOST || '127.0.0.1';
-  const displayHost = host === '0.0.0.0' ? 'localhost' : host;
-  app.listen(port, host, () => {
-    console.log(`InvenTrack server running at http://${displayHost}:${port}`);
-  });
+  return app;
 }
-
-startServer().catch((err) => {
-  console.error('Server start failed:', err);
-  process.exit(1);
-});
